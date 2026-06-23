@@ -158,7 +158,7 @@ function buildCatalogGrid(containerId, items) {
     card.style.animationDelay = `${i * 0.1}s`;
 
     card.innerHTML = `
-      <div class="catalog-item-preview" style="background: ${item.color}">
+      <div class="catalog-item-preview" style="background: ${item.color}" onclick="openModal('${item.url}', '${item.title}')">
         <div class="preview-overlay">
           <span class="preview-emoji">${item.emoji}</span>
           <div class="preview-iframe-wrapper">

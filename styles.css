@@ -110,9 +110,12 @@ body {
 }
 
 .logo-img {
-  height: 52px;
+  height: 75px;
   width: auto;
   object-fit: contain;
+  mix-blend-mode: multiply; /* Elimina el fondo blanco */
+  transform: scale(1.2); /* Lo hace un poco más grande para que luzca bien */
+  transform-origin: left center;
 }
 
 /* Nav Links */
@@ -1428,6 +1431,7 @@ body {
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .preview-overlay {
@@ -1779,11 +1783,14 @@ body {
 }
 
 .footer-brand .footer-logo-img {
-  height: 80px;
+  height: 110px;
   width: auto;
   object-fit: contain;
-  margin-bottom: 12px;
-  filter: brightness(0) invert(1); /* Makes the logo white for the dark footer */
+  margin-bottom: 8px;
+  filter: invert(1) grayscale(1) brightness(2);
+  mix-blend-mode: screen;
+  transform: scale(1.1);
+  transform-origin: left center;
 }
 
 .footer-brand p {
