@@ -68,7 +68,6 @@
         </div>
         <a href="#paquetes" class="nav-link">Paquetes</a>
         <a href="#galeria" class="nav-link">Galería</a>
-        <a href="#testimonios" class="nav-link">Testimonios</a>
         <a href="#contacto" class="nav-link">Contacto</a>
       </nav>
 
@@ -227,58 +226,31 @@
       <a href="#catalogos" class="ver-todas">Ver todas las plantillas →</a>
     </div>
 
-    <div class="cards-carousel-wrapper">
-      <button class="carousel-btn prev" id="prevBtn" aria-label="Anterior">‹</button>
-      <div class="cards-carousel" id="cardsCarousel">
-        <!-- Card 1 -->
-        <div class="inv-card dark-card">
-          <div class="card-badge">CUMPLEAÑOS</div>
-          <div class="card-names script-font">Ana & Luis</div>
-          <div class="card-date">12 · NOVIEMBRE · 2026</div>
-          <a href="#" class="card-btn">VER INVITACIÓN ▶</a>
-        </div>
-        <!-- Card 2 -->
-        <div class="inv-card rose-card">
-          <div class="card-badge">XV AÑOS</div>
-          <div class="card-names script-font">Regina</div>
-          <div class="card-date">10 · OCTUBRE · 2026</div>
-          <a href="#" class="card-btn">VER INVITACIÓN ▶</a>
-        </div>
-        <!-- Card 3 -->
-        <div class="inv-card gold-card">
-          <div class="card-badge">CUMPLEAÑOS</div>
-          <div class="card-names script-font">Sofía</div>
-          <div class="card-date">It's a Girl!</div>
-          <div class="card-subdate">25 · MAYO · 2026</div>
-          <a href="#" class="card-btn">VER INVITACIÓN ▶</a>
-        </div>
-        <!-- Card 4 -->
-        <div class="inv-card mint-card">
-          <div class="card-badge">BABY SHOWER</div>
-          <div class="card-names script-font">Camila</div>
-          <div class="card-date">It's a Girl!</div>
-          <div class="card-subdate">15 · JULIO · 2026</div>
-          <a href="#" class="card-btn">VER INVITACIÓN ▶</a>
-        </div>
-        <!-- Card 5 -->
-        <div class="inv-card blue-card">
-          <div class="card-badge">BAUTIZO</div>
-          <div class="card-names script-font">Mateo</div>
-          <div class="card-date">31 · AGOSTO · 2026</div>
-          <a href="#" class="card-btn">VER INVITACIÓN ▶</a>
-        </div>
-        <!-- Card 6 -->
-        <div class="inv-card dark-card">
-          <div class="card-badge">BODA</div>
-          <div class="card-names script-font">Isabella & Carlos</div>
-          <div class="card-date">18 · DICIEMBRE · 2026</div>
-          <a href="#" class="card-btn">VER INVITACIÓN ▶</a>
+    <!-- Grid de plantillas reales con vista previa -->
+    <div class="featured-grid" id="featuredGrid">
+      <!-- Llenado dinámicamente por JS -->
+    </div>
+  </section>
+
+  <!-- Modal de Vista Previa -->
+  <div class="preview-modal" id="previewModal" role="dialog" aria-modal="true" aria-label="Vista previa de invitación">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <span class="modal-title" id="modalTitle">Vista Previa</span>
+        <div class="modal-actions">
+          <a class="modal-open-btn" id="modalOpenBtn" href="#" target="_blank" rel="noopener">Abrir en nueva pestaña ↗</a>
+          <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
         </div>
       </div>
-      <button class="carousel-btn next" id="nextBtn" aria-label="Siguiente">›</button>
+      <div class="modal-body">
+        <iframe id="modalIframe" src="" title="Vista previa" sandbox="allow-scripts allow-same-origin allow-forms" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-cotizar-btn" id="modalCotizarBtn" href="#" target="_blank" rel="noopener">💬 Cotizar este diseño</a>
+      </div>
     </div>
-    <div class="carousel-dots" id="carouselDots"></div>
-  </section>
+  </div>
 
   <!-- ══════════════════════════════════════════
        CARACTERÍSTICAS
@@ -570,54 +542,6 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       TESTIMONIOS
-  ══════════════════════════════════════════ -->
-  <section class="testimonials" id="testimonios">
-    <div class="section-title-decorated light">
-      <span class="deco-line">——</span>
-      <span class="deco-flower">✿</span>
-      <h2>Lo que dicen nuestros clientes</h2>
-      <span class="deco-flower">✿</span>
-      <span class="deco-line">——</span>
-    </div>
-
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"¡Quedé encantada con mi invitación de boda! Super detallada, interactiva y mis invitados la amaron. 100% recomendable."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">S</div>
-          <div>
-            <div class="author-name">Sofía M.</div>
-            <div class="author-event">Boda · Noviembre 2025</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Para los XV de mi hija elegimos el paquete Plus y superó todas nuestras expectativas. La música, la cuenta regresiva, todo perfecto."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">L</div>
-          <div>
-            <div class="author-name">Laura R.</div>
-            <div class="author-event">XV Años · Agosto 2025</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"Atención personalizada, entrega rápida y el diseño quedó tal y como lo imaginé. Definitivamente volvería a contratar."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">M</div>
-          <div>
-            <div class="author-name">Mariana T.</div>
-            <div class="author-event">Baby Shower · Octubre 2025</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ══════════════════════════════════════════
        CONTACTO
@@ -715,7 +639,6 @@
         <h4>Información</h4>
         <a href="#paquetes">Paquetes</a>
         <a href="#como-funciona">¿Cómo funciona?</a>
-        <a href="#testimonios">Testimonios</a>
         <a href="#contacto">Contacto</a>
       </div>
     </div>

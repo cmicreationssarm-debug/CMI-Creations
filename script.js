@@ -45,7 +45,107 @@ const catalog = {
   ]
 };
 
-/* ── Build Catalog Cards ── */
+/* ── All items flat list for Featured section ── */
+const allFeatured = [
+  ...catalog.bodas.map(i => ({ ...i, category: 'BODA' })),
+  ...catalog.xv.map(i   => ({ ...i, category: 'XV AÑOS' }))
+];
+
+/* ══════════════════════════════════
+   FEATURED GRID (Plantillas Destacadas)
+══════════════════════════════════ */
+function buildFeaturedGrid() {
+  const container = document.getElementById('featuredGrid');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  allFeatured.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'featured-card';
+
+    card.innerHTML = `
+      <div class="featured-card-preview" style="background: ${item.color}">
+        <div class="featured-card-badge">${item.category}</div>
+        <div class="featured-iframe-wrapper">
+          <iframe
+            src="${item.url}"
+            title="${item.title}"
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin"
+            scrolling="no"
+            tabindex="-1"
+          ></iframe>
+          <div class="featured-iframe-overlay" data-url="${item.url}" data-title="${item.title}">
+            <div class="featured-hover-cta">
+              <span>👁 Ver vista previa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="featured-card-info">
+        <div class="featured-card-emoji">${item.emoji}</div>
+        <div class="featured-card-title">${item.title}</div>
+        <div class="featured-card-desc">${item.desc}</div>
+        <div class="featured-card-actions">
+          <button class="featured-btn-preview" data-url="${item.url}" data-title="${item.title}">
+            👁 Vista previa
+          </button>
+          <a href="https://wa.me/527701864491?text=Hola! Me interesa este diseño: ${encodeURIComponent(item.title)} - ${encodeURIComponent(item.url)}"
+             target="_blank" rel="noopener" class="featured-btn-cotizar">
+            💬 Cotizar
+          </a>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+
+  // Attach click events to overlay + button
+  container.querySelectorAll('[data-url]').forEach(el => {
+    el.addEventListener('click', () => openModal(el.dataset.url, el.dataset.title));
+  });
+}
+
+/* ══════════════════════════════════
+   PREVIEW MODAL
+══════════════════════════════════ */
+function openModal(url, title) {
+  const modal   = document.getElementById('previewModal');
+  const iframe  = document.getElementById('modalIframe');
+  const titleEl = document.getElementById('modalTitle');
+  const openBtn = document.getElementById('modalOpenBtn');
+  const cotizar = document.getElementById('modalCotizarBtn');
+
+  iframe.src          = url;
+  titleEl.textContent = title;
+  openBtn.href        = url;
+  cotizar.href        = `https://wa.me/527701864491?text=Hola! Me interesa este diseño: ${encodeURIComponent(title)} - ${encodeURIComponent(url)}`;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const modal  = document.getElementById('previewModal');
+  const iframe = document.getElementById('modalIframe');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { iframe.src = ''; }, 300);
+}
+
+function initModal() {
+  document.getElementById('modalClose')?.addEventListener('click', closeModal);
+  document.getElementById('modalBackdrop')?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+/* ══════════════════════════════════
+   CATALOG GRIDS (por categoría)
+══════════════════════════════════ */
 function buildCatalogGrid(containerId, items) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -84,9 +184,7 @@ function buildCatalogGrid(containerId, items) {
             Ver invitación →
           </a>
           <a href="https://wa.me/527701864491?text=Hola! Me interesa este diseño: ${encodeURIComponent(item.title)} - ${encodeURIComponent(item.url)}"
-             target="_blank"
-             rel="noopener"
-             class="catalog-item-cta btn-cotizar">
+             target="_blank" rel="noopener" class="catalog-item-cta btn-cotizar">
             💬 Cotizar
           </a>
         </div>
@@ -97,71 +195,9 @@ function buildCatalogGrid(containerId, items) {
   });
 }
 
-/* ── Init Catalogs ── */
 function initCatalogs() {
   buildCatalogGrid('bodas-grid', catalog.bodas);
   buildCatalogGrid('xv-grid',    catalog.xv);
-}
-
-/* ── Carousel ── */
-function initCarousel() {
-  const carousel  = document.getElementById('cardsCarousel');
-  const prevBtn   = document.getElementById('prevBtn');
-  const nextBtn   = document.getElementById('nextBtn');
-  const dotsWrap  = document.getElementById('carouselDots');
-
-  if (!carousel) return;
-
-  const cards     = carousel.querySelectorAll('.inv-card');
-  const cardWidth = () => cards[0].offsetWidth + 20; // width + gap
-  let currentIdx  = 0;
-
-  // Create dots
-  dotsWrap.innerHTML = '';
-  cards.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Ir a tarjeta ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dotsWrap.appendChild(dot);
-  });
-
-  function updateDots() {
-    dotsWrap.querySelectorAll('.dot').forEach((d, i) => {
-      d.classList.toggle('active', i === currentIdx);
-    });
-  }
-
-  function goTo(idx) {
-    currentIdx = Math.max(0, Math.min(idx, cards.length - 1));
-    carousel.scrollTo({ left: currentIdx * cardWidth(), behavior: 'smooth' });
-    updateDots();
-  }
-
-  prevBtn.addEventListener('click', () => goTo(currentIdx - 1));
-  nextBtn.addEventListener('click', () => goTo(currentIdx + 1));
-
-  // Keyboard nav
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  goTo(currentIdx - 1);
-    if (e.key === 'ArrowRight') goTo(currentIdx + 1);
-  });
-
-  // Auto-advance
-  let autoPlay = setInterval(() => goTo((currentIdx + 1) % cards.length), 4000);
-  carousel.addEventListener('mouseenter', () => clearInterval(autoPlay));
-  carousel.addEventListener('mouseleave', () => {
-    autoPlay = setInterval(() => goTo((currentIdx + 1) % cards.length), 4000);
-  });
-
-  // Sync dots on manual scroll
-  carousel.addEventListener('scroll', () => {
-    const idx = Math.round(carousel.scrollLeft / cardWidth());
-    if (idx !== currentIdx) {
-      currentIdx = idx;
-      updateDots();
-    }
-  });
 }
 
 /* ── Navbar Scroll Effect ── */
@@ -171,7 +207,6 @@ function initNavbar() {
     navbar.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  // Active link highlight
   const sections = document.querySelectorAll('section[id]');
   const links    = document.querySelectorAll('.nav-link');
 
@@ -198,7 +233,6 @@ function initHamburger() {
     const open = links.classList.toggle('open');
     btn.setAttribute('aria-expanded', open);
     document.body.style.overflow = open ? 'hidden' : '';
-    // Animate hamburger → X
     btn.querySelectorAll('span').forEach((s, i) => {
       if (open) {
         if (i === 0) s.style.transform = 'rotate(45deg) translate(5px, 5px)';
@@ -211,7 +245,6 @@ function initHamburger() {
     });
   });
 
-  // Close on nav link click
   links.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
       links.classList.remove('open');
@@ -249,7 +282,7 @@ function initAOS() {
   els.forEach(el => obs.observe(el));
 }
 
-/* ── Catalog Card Entrance Animation ── */
+/* ── Card Entrance Animation ── */
 function initCatalogObserver() {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -260,9 +293,9 @@ function initCatalogObserver() {
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.catalog-item').forEach((el, i) => {
-    el.style.opacity   = '0';
-    el.style.transform = 'translateY(30px)';
+  document.querySelectorAll('.catalog-item, .featured-card').forEach((el, i) => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(30px)';
     el.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
     obs.observe(el);
   });
@@ -278,27 +311,25 @@ function initForm() {
     const nombre  = form.nombre.value.trim();
     const evento  = form.evento.value;
     const mensaje = form.mensaje.value.trim();
-
     const text = `Hola CMI Creations! 👋\n\nNombre: ${nombre}\nEvento: ${evento}\n\n${mensaje}`;
     window.open(`https://wa.me/527701864491?text=${encodeURIComponent(text)}`, '_blank');
   });
 }
 
-/* ── Smooth Scroll for anchor links ── */
+/* ── Smooth Scroll ── */
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (target) {
         e.preventDefault();
-        const offset = 80;
-        window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
       }
     });
   });
 }
 
-/* ── Category Card Hover Animation ── */
+/* ── Category Cards Hover ── */
 function initCategoryCards() {
   document.querySelectorAll('.category-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
@@ -314,16 +345,16 @@ function initCategoryCards() {
    INIT ALL
 ══════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-  initCatalogs();           // Populate catalog grids with real links
-  initCarousel();           // Featured cards carousel
-  initNavbar();             // Scroll + active states
-  initHamburger();          // Mobile menu
-  initBackToTop();          // ↑ button
-  initAOS();                // Scroll animations
-  initForm();               // Contact form → WhatsApp
-  initSmoothScroll();       // Anchor smooth scroll
-  initCategoryCards();      // Category hover effects
+  buildFeaturedGrid();      // Plantillas destacadas con iframes reales
+  initModal();              // Modal de vista previa
+  initCatalogs();           // Grids de catálogo por categoría
+  initNavbar();             // Scroll + active link states
+  initHamburger();          // Menú móvil
+  initBackToTop();          // Botón ↑
+  initAOS();                // Animaciones al hacer scroll
+  initForm();               // Formulario → WhatsApp
+  initSmoothScroll();       // Scroll suave en anclas
+  initCategoryCards();      // Hover en tarjetas de categoría
 
-  // Init catalog observer after catalogs are built
-  setTimeout(initCatalogObserver, 100);
+  setTimeout(initCatalogObserver, 150);
 });
