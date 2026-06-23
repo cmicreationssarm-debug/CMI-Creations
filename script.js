@@ -121,7 +121,7 @@ function openModal(url, title) {
   iframe.src          = url;
   titleEl.textContent = title;
   openBtn.href        = url;
-  cotizar.href        = `https://wa.me/527701864491?text=Hola! Me interesa este diseño: ${encodeURIComponent(title)} - ${encodeURIComponent(url)}`;
+  cotizar.href        = `https://wa.me/527701864491?text=Hola! Quiero un diseño así: ${encodeURIComponent(title)} - ${encodeURIComponent(url)}`;
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -183,9 +183,9 @@ function buildCatalogGrid(containerId, items) {
           <a href="${item.url}" target="_blank" rel="noopener" class="catalog-item-cta btn-ver">
             Ver invitación →
           </a>
-          <a href="https://wa.me/527701864491?text=Hola! Me interesa este diseño: ${encodeURIComponent(item.title)} - ${encodeURIComponent(item.url)}"
+          <a href="https://wa.me/527701864491?text=Hola! Quiero un diseño así: ${encodeURIComponent(item.title)} - ${encodeURIComponent(item.url)}"
              target="_blank" rel="noopener" class="catalog-item-cta btn-cotizar">
-            💬 Cotizar
+            💬 Pedir por WhatsApp
           </a>
         </div>
       </div>
