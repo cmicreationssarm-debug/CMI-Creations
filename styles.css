@@ -1990,6 +1990,11 @@ body {
   .nav-links, .btn-whatsapp { display: none; }
   .hamburger { display: flex; }
 
+  .navbar.menu-open {
+    backdrop-filter: none;
+    background: var(--cream);
+  }
+
   .nav-links.open {
     display: flex;
     flex-direction: column;

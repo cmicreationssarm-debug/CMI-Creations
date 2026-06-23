@@ -231,6 +231,7 @@ function initHamburger() {
 
   btn.addEventListener('click', () => {
     const open = links.classList.toggle('open');
+    document.getElementById('navbar').classList.toggle('menu-open', open);
     btn.setAttribute('aria-expanded', open);
     document.body.style.overflow = open ? 'hidden' : '';
     btn.querySelectorAll('span').forEach((s, i) => {
@@ -248,6 +249,8 @@ function initHamburger() {
   links.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
       links.classList.remove('open');
+      document.getElementById('navbar').classList.remove('menu-open');
+      btn.setAttribute('aria-expanded', false);
       document.body.style.overflow = '';
       btn.querySelectorAll('span').forEach(s => {
         s.style.transform = '';
