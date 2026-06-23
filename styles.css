@@ -1701,7 +1701,7 @@ body {
 }
 
 .contact-option.wa:hover  { border-color: #25D366; background: #F0FDF4; }
-.contact-option.ig:hover  { border-color: #E1306C; background: #FDF0F5; }
+.contact-option.tk:hover  { border-color: #000000; background: #F8F9FA; }
 .contact-option.email:hover { border-color: var(--burgundy); background: var(--cream); }
 
 .contact-icon { font-size: 1.4rem; }
